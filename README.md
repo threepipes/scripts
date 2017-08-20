@@ -67,3 +67,22 @@ fdb.insert(insert_data)
 for data in fdb.select(where={'file_name': 'foo.cpp'}):
     print(data)
 ```
+
+### 環境変数の設定
+
+Connectorでは，以下のコードのようにMySQLとの接続を確保している
+
+``` python
+self.connector = mc.connect(
+    user=os.getenv('CF_DB_USER', 'root'),
+    passwd=os.getenv('MYSQL_PASS', 'pass'),
+    host='localhost',
+    db=os.getenv('CF_DB', 'testcf'),
+    buffered=True)
+```
+
+そのため，利用の前に適切に環境変数を設定する必要がある
+
+- CF\_DB\_USER: データベース利用のユーザ(Default: root)
+- MYSQL_PASS: CF\_DB\_USERのパスワード(Default: pass)
+- CF\_DB: 今回のConnectorを利用するDB(Default: testcf)
